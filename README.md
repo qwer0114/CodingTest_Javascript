@@ -1,2 +1,2 @@
 # CodingTest_JavaScript
-This repe is for coding test
+This repo is for coding test
