@@ -3,7 +3,7 @@ function solution(n, lost, reserve) {
 
     answer = n - lost.length;
    lost.sort((a,b)=>a-b)
- reserve.sort((a,b)=>a-b)
+    reserve.sort((a,b)=>a-b)
      let lost2 = [...lost]
      for(let l of lost){
         if(reserve.includes(l)){
