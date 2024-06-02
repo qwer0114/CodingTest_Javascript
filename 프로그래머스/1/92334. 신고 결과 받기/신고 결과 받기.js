@@ -5,8 +5,7 @@ function solution(id_list, report, k) {
     report = [...new Set(report)]
     report.map((rep)=>{
        let array = rep.split(" ");
-       if(!object[array[0]])object[array[0]] = [array[1]]
-       else object[array[0]] = [...object[array[0]],array[1]]
+      object[array[0]] = [...(object[array[0]] ?? []), array[1]];
        map.set(array[1],map.get(array[1])+1||1)
     })
     map = new Map([...map].filter((m)=>m[1]>=k))
