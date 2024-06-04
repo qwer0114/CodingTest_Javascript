@@ -4,6 +4,7 @@ function solution(friends, gifts) {
     var answer = {};
     let map = new Map();
     let map2 = new Map();
+    
     for(let i =0; i<friends.length; i++){
         answer[friends[i]] = 0;
         map.set(friends[i],{})
@@ -31,11 +32,8 @@ function solution(friends, gifts) {
                 same.push(members[k])
             }
         }
-          console.log(notGave)
-            notGave = notGave.filter((not)=>map.get(not)[friends[i]]===undefined)
-            
-          
-        for(let j = 0; j<notGave.length; j++){
+       notGave = notGave.filter((not)=>map.get(not)[friends[i]]===undefined)   
+       for(let j = 0; j<notGave.length; j++){
             if(map2.get(friends[i])>map2.get(notGave[j])) answer[friends[i]]+=1
         }
         for(let j = 0; j<same.length; j++){
@@ -43,8 +41,7 @@ function solution(friends, gifts) {
         }
     }
 
-    console.log(map)
-    console.log(map2)
+ 
     return Math.max(...Object.values(answer));
 }
 
