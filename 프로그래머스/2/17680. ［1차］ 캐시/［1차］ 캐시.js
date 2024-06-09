@@ -2,46 +2,21 @@
 function solution(cacheSize, cities) {
     var answer = 0;
     let cache = [];
-    let bigCity = [];
-    cities.map((city)=>{
-        bigCity.push(city.toLowerCase()); 
-    })
-    bigCity.map((city)=>{
-         if(cacheSize === 0) {  
-            answer += 5;
-            return;
-        }
-        
-        if(cache.length!==cacheSize){
-            if(cache.includes(city)) cacheHit(cache, city)
-            else if(!cache.includes(city)){
-                 cache.unshift(city)
-                  answer+=5;
-            }
+    cities = cities.map((city)=>city.toUpperCase())
+    
+    for(let i = 0; i<cities.length; i++){
+        // cache hit
+        if(cache.includes(cities[i])){
+            answer+=1;
+            cache.splice(cache.indexOf(cities[i]),1)
+            cache.push(cities[i])
         }else{
-              if(cache.includes(city)) cacheHit(cache, city, answer)
-              else if(!cache.includes(city))cacheMiss(cache, city) 
+            answer+=5;
+            if(cache.length===cacheSize)cache.shift()
+            if(cache.length<cacheSize)cache.push(cities[i])
         }
-    })
- 
-   
-    return answer;
-    
-    
-    function cacheHit(cache, city){
-    let index = cache.indexOf(city);
-    cache.splice(index,1)
-    cache.unshift(city);
-    answer+=1;
-            
-}
-
-function cacheMiss(cache, city){
-     cache.pop();
-     cache.unshift(city);
-     answer+=5;
-}
-
+    }
+    return answer
 }
 
 
