@@ -28,30 +28,38 @@ function solution(msg) {
     "Y",
     "Z",
   ];
-  let map = new Map();
-  alphabet.map((a, i) => map.set(a, i + 1));
-  let end = 1;
-  let start = 0;
-  let prevstring = "";
+    
+    let map = new Map();
+    alphabet.map((alpha,i)=>map.set(alpha,i+1))
+    let i = 0;
+    while (i < msg.length) {
+        let l = 1;
+        let string = msg.substr(i, l);
+        
+        while (map.has(string) && i + l <= msg.length) {
+            l++;
+            string = msg.substr(i, l);
+        }
 
-  while (msg !== "") {
-    let substring = msg.slice(start, end);
-   if (map.has(msg)) {
-      answer.push(map.get(msg));
-      msg = msg.replace(msg, "");
+        // 마지막에 증가된 l을 줄여서 사전에 있는 문자열을 다시 얻는다
+        l--;
+        string = msg.substr(i, l);
+
+        // 사전에 있는 문자열의 인덱스를 추가
+        answer.push(map.get(string));
+
+        // 사전에 새로운 문자열을 추가
+     
+            map.set(msg.substr(i, l + 1), map.size + 1);
+       
+
+        // i를 업데이트하여 처리된 문자열의 다음으로 이동
+        i += l;
     }
-    if (map.has(substring)) {
-      prevstring = substring;
-      end++;
-      continue;
-    } else {
-      map.set(substring, map.size + 1);
-      answer.push(map.get(prevstring));
-      msg = msg.replace(prevstring, "");
-      end = 1;
-    }
-  
-  }
-    return answer
+   
+    return answer;
 }
+   
+   
+
 
