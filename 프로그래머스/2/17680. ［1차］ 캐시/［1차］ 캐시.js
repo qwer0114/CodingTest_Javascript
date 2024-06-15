@@ -1,30 +1,27 @@
-
 function solution(cacheSize, cities) {
-    var answer = 0;
+    let executionTime = 0;
     let cache = [];
-    cities = cities.map((c)=>c.toUpperCase())
-    
-    for(let i =0; i<cities.length; i++){
-       if(cache.includes(cities[i])){
-           let index = cache.indexOf(cities[i])
-           cache.splice(index,1)
-           cache.push(cities[i])
-           answer+=1
-       }else{
-           if(cache.length<cacheSize){
-               cache.push(cities[i])
-           }else{
-               if(cacheSize!==0){
-                    cache.shift()
-                    cache.push(cities[i])
-               }
-              
-           }
-           answer+=5;
-       }
-    }
-    return answer
+
+    // 도시 이름을 대문자로 변환
+    cities = cities.map(city => city.toUpperCase());
+
+    cities.forEach(city => {
+        if (cache.includes(city)) {
+            // 캐시 히트
+            cache.splice(cache.indexOf(city), 1);
+            executionTime += 1;
+        } else {
+            // 캐시 미스
+            if (cache.length >= cacheSize && cacheSize > 0) {
+                cache.shift();
+            }
+            executionTime += 5;
+        }
+
+        if (cacheSize > 0) {
+            cache.push(city);
+        }
+    });
+
+    return executionTime;
 }
-
-
-
