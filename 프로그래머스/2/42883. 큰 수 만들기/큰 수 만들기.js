@@ -10,7 +10,7 @@ function solution(number, k) {
         }
         stack.push(current);
     }
-    
+   
     // 만약 k가 남아있다면 뒤에서부터 제거
     stack.splice(stack.length - k, k);
     
