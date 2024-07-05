@@ -1,53 +1,54 @@
-function getMinute(time){
-    let t = time.split(":");
-    let hour;
-    let minute
-    hour = Number(t[0])*60;
-    minute = Number(t[1])
-    return Number(hour+minute);
-}
 function solution(fees, records) {
     var answer = [];
+    // 금액 -> 기본시간 + (걸린시간)/단위시간 *단위요금
+    let 기본시간 = fees[0];
+    let 기본요금 = fees[1];
+    let 단위시간 = fees[2];
+    let 단위요금 = fees[3];
     let map = new Map();
-    let minute = new Map();
-    records.map((record)=>{
-        let rec = record.split(" ");
-        if(rec[2]==="IN"){
-            map.set(rec[1],rec[0]);
-        }else if(rec[2]==="OUT"){
-           let takeTime = Math.abs(getMinute(rec[0]) - getMinute(map.get(rec[1])))
-           if(minute.has(rec[1])){
-               minute.set(rec[1],minute.get(rec[1])+takeTime)
-           }else{
-               minute.set(rec[1],takeTime);
-           }
-              map.delete(rec[1]);
-        }
-    })
-   
-    if(map.size!==0){
-         let keys = [...map.keys()]
-        keys.map((key)=>{
-            let takeTime = Math.abs(getMinute("23:59") - getMinute(map.get(key)))
-            if(minute.has(key)){
-                 minute.set(key,minute.get(key)+takeTime)
+    let moneyMap = new Map();
+    for(let record of records){
+        let [time,number,enter] = record.split(" ");
+        if(!map.has(number)){
+            map.set(number,time)
+        }else{
+            if(moneyMap.has(number)){
+                moneyMap.set(number,moneyMap.get(number)+getTime(map.get(number),time))
             }else{
-                minute.set(key,takeTime)
+                 moneyMap.set(number,getTime(map.get(number),time))
             }
            
-        })
-    }
-    let minuteKeys = [...minute.keys()].sort();
-    for(let i =0; i<minuteKeys.length; i++){
-        if(minute.get(minuteKeys[i])<=fees[0]){
-            answer.push(fees[1])
-        }else{
-            console.log(minute.get(minuteKeys[i]))
-            let time = Math.ceil((minute.get(minuteKeys[i])-fees[0])/fees[2])
-            console.log(time)
-            let money = fees[1]+(time*fees[3])
-            answer.push(money)
+            map.delete(number)
         }
     }
+    map = [...map]
+    for(let i =0; i<map.length; i++){
+        let [number,time] = map[i];
+        if(moneyMap.has(number)){
+                moneyMap.set(number,moneyMap.get(number)+getTime(time,"23:59"))
+            }else{
+                 moneyMap.set(number,getTime(time,"23:59"))
+            }
+    }
+    moneyMap = [...moneyMap].sort((a,b)=>a[0]-b[0]);
+    console.log(moneyMap)
+    for(let i =0; i<moneyMap.length; i++){
+        let [number,totalTime] = moneyMap[i];
+        let fee = 0;
+        if(totalTime>기본시간){
+            fee = 기본요금 + (Math.ceil((totalTime-기본시간)/단위시간))*단위요금
+        }else{
+            fee = 기본요금
+        }
+        answer.push(fee)
+    }
+    
     return answer;
+}
+
+
+function getTime(inTime,outTime){
+    let [inHour,inMinute] = inTime.split(":").map((n)=>Number(n));
+    let [outHour,outMinute] = outTime.split(":").map((n)=>Number(n));
+    return (outHour*60+outMinute) - (inHour*60+inMinute)
 }
