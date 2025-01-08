@@ -1,19 +1,14 @@
 function solution(elements) {
-    let answer = [];
+    const circular = [...elements,...elements];
     const length = elements.length;
     
-    
+    const set = new Set();
     for(let i =0; i<length; i++){
-        let temp = [];
-        for(let j = i; j<length+i; j++){
-            if(!temp.length) {
-                temp.push(elements[i])
-            } else{
-                temp.push(temp[temp.length-1]+elements[Math.floor(j%length)])
-            }
-        }
-        answer = [...answer,...temp]
+        for(let j = 0; j<length; j++){
+           const sum = circular.slice(j,j+i).reduce((acc,cur)=>acc+cur,0)
+           set.add(sum)
     }
-    const set = new Set(answer);
+}
+   
     return set.size;
 }
