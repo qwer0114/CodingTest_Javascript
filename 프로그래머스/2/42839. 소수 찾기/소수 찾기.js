@@ -15,6 +15,7 @@ function solution(numbers) {
                     dfs(current+numbers[i])
                     visited[i] = false;
                 }
+               
             }
         
     }
