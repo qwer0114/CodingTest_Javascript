@@ -1,26 +1,19 @@
 function solution(k, dungeons) {
-    let answer = [];
-    const leastArr = [];
-    const tiredArr = [];
-     let visited = new Array(dungeons.length).fill(false);
-    dungeons.forEach(d => {
-        leastArr.push(d[0]);
-        tiredArr.push(d[1]);
-    });
-    
-    function DFS(L,k){
-        answer.push(L)
-        for(let i = 0; i<leastArr.length; i++){
-            if(!visited[i] && k>=leastArr[i]){
-                visited[i] = true;
-                DFS(L+1,k-tiredArr[i])
-                visited[i] = false;
-            }
-        }
+  let max = 0;
+  let visited = Array(dungeons.length).fill(false)
+  
+  function dfs(currentTired,count){
+      max = Math.max(max,count)
       
-        
-    }
-    DFS(0,k)
-
-    return Math.max(...answer);
+      for(let i = 0; i<dungeons.length; i++){
+          if(!visited[i] && currentTired>=dungeons[i][0]){
+              visited[i] = true;
+              dfs(currentTired-dungeons[i][1],count+1)
+              visited[i] = false;
+          }
+      }
+  }
+    
+  dfs(k,0)
+  return max
 }
