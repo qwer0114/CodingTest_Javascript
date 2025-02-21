@@ -5,6 +5,7 @@ function solution(n, computers) {
     const graph = makeGraph(computers,n)
     
     function dfs(node){
+        visited[node] = true
         for(let next of graph[node]){
             if(!visited[next]){
                 visited[next] = true
@@ -15,12 +16,9 @@ function solution(n, computers) {
     }
     
     for(let i = 1; i<=n; i++){
-        if(!visited[i]){
-            visited[i] = true
-             dfs(i)
-             answer+=1;
-        }
-          
+        if(visited[i]) continue
+        dfs(i)
+        answer+=1;
     }
     
     return answer;
