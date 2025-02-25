@@ -24,18 +24,19 @@ function solution(n, wires) {
         
         const graph = makeGraph(filterWires)
         const visited = Array(n+1).fill(false)
-        
+        let count = 0;
         function dfs(node){
             visited[node] = true
-            let count = 1;
+            count++
             for(let next of graph[node]){
                 if(!visited[next]){
-                     count+=dfs(next)
+                     dfs(next)
                 }
             }
             return count
         }
-        const firstComponent = dfs(1);
+        dfs(1)
+        const firstComponent = count;
         const secondComponent = n - firstComponent;
         answer = Math.min(answer,Math.abs(firstComponent-secondComponent))
     }
