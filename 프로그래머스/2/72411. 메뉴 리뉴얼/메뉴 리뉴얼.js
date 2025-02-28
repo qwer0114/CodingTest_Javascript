@@ -4,7 +4,7 @@ function makeCombination(menus){
     function dfs(menu,combi,start){
         combi+=menu;
         if(combi.length>1){
-            result.push(combi.split("").sort().join(""))
+            result.push(combi)
         }
         
         for(let i = start; i<menus.length; i++){
@@ -24,7 +24,7 @@ function makeCombination(menus){
 function solution(orders, course) {
     var answer = [];
     let combiCandidate = {}
- 
+     orders = orders.map(order => order.split('').sort().join(''));
     
     for(let order of orders){
         let orderArray = order.split("")
