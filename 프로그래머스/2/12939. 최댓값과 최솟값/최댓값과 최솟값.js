@@ -1,12 +1,9 @@
 function solution(s) {
     var answer = '';
-    let array = [];
+    let numbers = s.split(" ").map(Number);
+    console.log(numbers)
     
+    answer = `${Math.min(...numbers)} ${Math.max(...numbers)}`
     
-   s.split(" ").map((s)=>{
-       array.push(Number(s));
-   })
-    array.sort((a,b)=>a-b)
-   
-    return array[0]+" "+array[array.length-1];
+    return answer;
 }
