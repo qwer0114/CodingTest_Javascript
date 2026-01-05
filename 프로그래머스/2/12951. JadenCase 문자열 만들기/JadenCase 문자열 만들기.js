@@ -1,6 +1,16 @@
 function solution(s) {
-    const answer = s.split(' ').map(sentence => sentence.replace(/\w/g,(t,idx)=>{
-        return idx === 0 ? t.toUpperCase() : t.toLowerCase()
-    })).join(' ')
-    return answer
+  let words = s.split(" ");
+  let answer = [];
+  
+  for(let word of words){
+      let firstWords = ""
+      if(typeof word[0] === "string"){
+          firstWords = word[0].toUpperCase();
+      }
+      let string = word.substr(1).toLowerCase();
+      answer.push(`${firstWords}${string}`)
+  }
+    
+   return answer.join(" ")
+    
 }
