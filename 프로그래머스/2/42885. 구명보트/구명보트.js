@@ -1,16 +1,16 @@
 function solution(people, limit) {
     var answer = 0;
-    people.sort((a,b)=>b-a);
-    let smallest = people.length-1
-    
-   
-        for(let i=0; i<people.length; i++){
-        if(i>=smallest) break;
-        if(people[i]+people[smallest] <= limit){
-            answer+=1;   
-            smallest-=1;
+    people.sort((a, b) => a - b);
+    let lt = 0;
+    let rt = people.length - 1;
+
+    while (lt <= rt) {       
+        if (people[lt] + people[rt] <= limit) {
+            lt++;              
         }
+        rt--;                   
+        answer++;              
     }
- 
-    return people.length - answer;
+
+    return answer;
 }
