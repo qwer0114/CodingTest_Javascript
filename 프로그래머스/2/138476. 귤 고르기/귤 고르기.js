@@ -1,21 +1,28 @@
 function solution(k, tangerine) {
-    var answer = 1;
-    tangerine.sort((a,b)=>a-b);
-    let object = {};
-    let sum = 0;
-    let boolean = true;
-    for(let a of tangerine){
-        object[a]!==undefined? object[a]+=1 :object[a] = 1;
+    var answer = 0;
+    let map = new Map();
+    
+    for(let t of tangerine){
+        if(map.has(t)){
+            map.set(t,map.get(t)+1)
+        }else{
+            map.set(t,1)
+        }
+        
     }
     
-   let count = [...Object.values(object)].sort((a,b)=>b-a);
-    console.log(count)
+    const mapToArray = [...map]
+    mapToArray.sort((a,b)=>b[1]-a[1]);
     
-    for(let i = 0; i<count.length; i++){
-        sum = sum + count[i]
-        if(sum>=k) break;
+    
+    for(let [tangerine, count] of mapToArray){
         answer++;
+        k-=count
+        if(k<=0){
+            return answer
+        }
     }
+    
     
     
     return answer;
