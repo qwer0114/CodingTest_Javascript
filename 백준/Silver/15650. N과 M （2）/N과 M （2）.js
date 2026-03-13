@@ -1,24 +1,36 @@
 const fs = require("fs");
-const input = fs.readFileSync("./dev/stdin").toString().trim();
+const input = fs
+  .readFileSync("./dev/stdin")
+  .toString()
+  .trim()
+  .split("\n")
+  .map((s) => s.split(" "));
 
-function solution(input) {
-  let [N, M] = input.split(" ").map(Number);
-  let result = [];
-  let answer = [];
+let [N, M] = input[0].map(Number);
+
+function solution(N, M) {
+  const answer = [];
+  const visited = Array.from({ length: N }, () => false);
+  let temp = [];
 
   function dfs(start) {
-    if (result.length === M) {
-      answer.push([...result]);
+    if (temp.length === M) {
+      answer.push([...temp]);
       return;
-    }
-    for (let i = start; i <= N; i++) {
-      result.push(i);
-      dfs(i + 1);
-      result.pop();
+    } else {
+      for (let i = start; i <= N; i++) {
+        if (!visited[i]) {
+          visited[i] = true;
+          temp.push(i);
+          dfs(i);
+          visited[i] = false;
+          temp.pop();
+        }
+      }
     }
   }
   dfs(1);
   return answer.map((a) => a.join(" ")).join("\n");
 }
 
-console.log(solution(input)); // 실행
+console.log(solution(N, M));
