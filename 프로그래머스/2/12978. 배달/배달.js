@@ -1,34 +1,33 @@
 function solution(N, road, K) {
-   
-    const graph = Array(N + 1).fill().map(() => []);
-    for (const [a, b, time] of road) {
-        graph[a].push([b, time]);
-        graph[b].push([a, time]);
+    var answer = 0;
+    const graph = Array(N+1).fill().map(()=>[])
+    let dist = Array(N+1).fill(Infinity);
+    
+    for(let [a,b,c] of road){
+        graph[a].push([b,c])
+        graph[b].push([a,c])
     }
     
-   
-    const distances = Array(N + 1).fill(Infinity);
-    distances[1] = 0; // 시작점(1번 마을)의 거리는 0
+     const queue = [[1,0]];
+     dist[1] = 0;
     
-    
-    const queue = [[1, 0]]; 
-    
-    while (queue.length > 0) {
-    
-        queue.sort((a, b) => a[1] - b[1]);
-        const [currentNode, currentDist] = queue.shift();
+    while(queue.length>0){
+        let [node,time] = queue.shift();
         
-        if (distances[currentNode] < currentDist) continue;
+        if(time<dist[node]) continue
         
-       
-        for (const [nextNode, time] of graph[currentNode]) {
-            const newDist = currentDist + time;
-            if (newDist < distances[nextNode]) {
-                distances[nextNode] = newDist;
-                queue.push([nextNode, newDist]);
+        for(let [nextNode,takenTime] of graph[node]){
+           const newTime = takenTime+time;
+            if(newTime<dist[nextNode]){
+                dist[nextNode] = newTime;
+                queue.push([nextNode,newTime])
             }
         }
+        
     }
+
     
-    return distances.filter(dist => dist <= K).length;
+    answer = dist.filter((d)=>d<=K).length
+
+    return answer;
 }
