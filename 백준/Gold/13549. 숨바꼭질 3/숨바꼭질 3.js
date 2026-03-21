@@ -7,33 +7,32 @@ const input = fs
   .split("\n")
   .map((s) => s.split(" "));
 
-let [N, X] = input.shift().map(Number);
+const [N, K] = input.shift().map(Number);
 
-function solution(N, X) {
-  let dequeue = [[N, 0]];
+function solution(N, K) {
+  let queue = [[N, 0]];
   let dist = Array(100001).fill(Infinity);
 
-  while (dequeue.length > 0) {
-    let [x, sec] = dequeue.shift();
+  while (queue.length > 0) {
+    let [x, sec] = queue.shift();
+    if (x === K) return sec;
+    if (sec > dist[x]) continue;
 
-    if (x === X) return sec;
-
-    const nexts = [
-      [2 * x, 0],
+    let nexts = [
       [x + 1, 1],
       [x - 1, 1],
+      [2 * x, 0],
     ];
 
-    for (let [nextX, cost] of nexts) {
-      if (nextX < 0 || nextX >= 100001) continue;
-      const nextSec = sec + cost;
-      if (nextSec < dist[nextX]) {
-        dist[nextX] = nextSec;
-        if (cost === 0) dequeue.unshift([nextX, nextSec]);
-        else dequeue.push([nextX, nextSec]);
+    for (let [nx, cost] of nexts) {
+      if (nx < 0 || nx > 100000) continue;
+
+      if (sec + cost < dist[nx]) {
+        dist[nx] = sec + cost;
+        if (cost === 0) queue.unshift([nx, sec + cost]);
+        else queue.push([nx, sec + cost]);
       }
     }
   }
 }
-
-console.log(solution(N, X));
+console.log(solution(N, K));
