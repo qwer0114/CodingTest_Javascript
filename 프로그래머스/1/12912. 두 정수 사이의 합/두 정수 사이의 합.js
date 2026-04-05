@@ -1,9 +1,11 @@
 function solution(a, b) {
     var answer = 0;
-    let bigger = Math.max(a,b)
-    let miner = Math.min(a,b)
-    for(let i =miner; i<=bigger; i++){
+    let min = Math.min(a,b);
+    let max = Math.max(a,b)
+    
+    for(let i = min; i<=max; i++){
         answer += i
     }
+    
     return answer;
 }
