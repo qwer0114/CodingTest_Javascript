@@ -1,8 +1,10 @@
 function solution(n) {
     var answer = [];
-    let string = n.toString();
-    for(let a of string){
-        answer.unshift(Number(a))
+    let last = String(n).length-1
+    
+    for(let i = last; i>=0; i--){
+        answer.push(Number(String(n)[i]))
     }
+    
     return answer;
 }
